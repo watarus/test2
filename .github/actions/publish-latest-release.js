@@ -7,7 +7,7 @@ run();
 async function run() {
     const octokit = new Octokit();
 
-    const { releases } = await octokit.request(
+    const releases = await octokit.request(
         "GET /repos/:repository/releases",
         {
             repository: process.env.GITHUB_REPOSITORY
@@ -37,5 +37,5 @@ async function run() {
             tag_name: tag
         }
     );
-
+    console.log("release", release)
 }
