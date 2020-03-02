@@ -17,7 +17,6 @@ async function run() {
     let release_id = 0;
     for (let i = 0; i < releases.length; ++i) {
         const release = releases[i];
-        console.log("release", release)
         if (release["draft"]) {
             release_id = release["id"];
             break;
@@ -28,7 +27,7 @@ async function run() {
         return;
     }
 
-    const { release } = await octokit.request(
+    const release = await octokit.request(
         "PATCH /repos/:repository/releases/:release_id",
         {
             repository: process.env.GITHUB_REPOSITORY,
@@ -37,5 +36,6 @@ async function run() {
             tag_name: tag
         }
     );
-    console.log("release", release)
+
+    console.log(release)
 }
