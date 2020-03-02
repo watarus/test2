@@ -9,7 +9,7 @@ async function run() {
 
   // See https://developer.github.com/v3/issues/comments/#create-a-comment
   const { data } = await octokit.request(
-    "POST /repos/:repository/releases/latest",
+    "GET /repos/:repository/releases/latest",
     {
       repository: process.env.GITHUB_REPOSITORY
     }
