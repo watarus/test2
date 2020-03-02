@@ -13,6 +13,7 @@ async function run() {
             repository: process.env.GITHUB_REPOSITORY
         }
     );
+    console.log("releases", releases)
 
     let release_id = 0;
     for (const release in releases) {
