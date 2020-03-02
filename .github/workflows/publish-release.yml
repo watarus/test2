@@ -16,8 +16,10 @@ jobs:
           node-version: 12
       - name: Publish the latest releasee
         run: |
+          pushd ./.github/actions
           npm ci
-          node ./github/actions/publish-latest-release.js
+          node ./publish-latest-release.js
+          popd
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG: ${{ github.ref }}
