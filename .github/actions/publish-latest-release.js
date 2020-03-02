@@ -1,5 +1,5 @@
 const eventPayload = require(process.env.GITHUB_EVENT_PATH);
-const tag = require(process.env.TAG);
+const tag = process.env.TAG.replace('refs/tags/', '');
 const { Octokit } = require("@octokit/action");
 
 run();
