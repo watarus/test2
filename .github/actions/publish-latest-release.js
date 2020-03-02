@@ -15,8 +15,8 @@ async function run() {
     );
 
     let release_id = 0;
-
     for (const release in releases) {
+        console.log("release", release)
         if (release["draft"]) {
             release_id = release["id"];
             break;
