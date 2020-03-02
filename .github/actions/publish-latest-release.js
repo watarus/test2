@@ -5,16 +5,36 @@ const { Octokit } = require("@octokit/action");
 run();
 
 async function run() {
-  const octokit = new Octokit();
+    const octokit = new Octokit();
 
-  // See https://developer.github.com/v3/issues/comments/#create-a-comment
-  const { data } = await octokit.request(
-    "GET /repos/:repository/releases/latest",
-    {
-      repository: process.env.GITHUB_REPOSITORY
+    const { releases } = await octokit.request(
+        "GET /repos/:repository/releases",
+        {
+            repository: process.env.GITHUB_REPOSITORY
+        }
+    );
+
+    let release_id = 0;
+
+    for (const release in releases) {
+        if (release["draft"]) {
+            release_id = release["id"];
+            break;
+        }
     }
-  );
 
-  console.log("Data:", data);
-  console.log("Payload:", eventPayload);
+    if (release_id == 0) {
+        return;
+    }
+
+    const { release } = await octokit.request(
+        "PATCH /repos/:repository/releases/:release_id",
+        {
+            repository: process.env.GITHUB_REPOSITORY,
+            release_id: release_id,
+            draft: false,
+            tag_name: tag
+        }
+    );
+
 }
