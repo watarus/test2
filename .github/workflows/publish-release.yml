@@ -21,16 +21,17 @@ jobs:
           node-version: 12
       - name: Publish the latest releasee
         run: |
-          git branch --format "%(refname:short)" --contains $TAG | grep master$
-          if [ $? -eq 0 ]; then
-            echo "called"
-            pushd ./.github/actions
-            npm ci
-            node ./publish-latest-release.js
-            popd
+          echo "start"
+          ret=$(git branch --format "%(refname:short)" --contains $TAG | grep master$)
+          if [ -z $ret ]; then
+            echo "Ignore this tag."
+            exit 0
           fi
-          echo "debug last"
-          exit 0
+          echo "called"
+          pushd ./.github/actions
+          npm ci
+          node ./publish-latest-release.js
+          popd
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG: ${{ github.ref }}
