@@ -1,4 +1,4 @@
-name: Prepare release
+name: Publish release
 
 on:
     push:
@@ -11,11 +11,18 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          ref: master
       - uses: actions/setup-node@v1
         with:
           node-version: 12
       - name: Publish the latest releasee
         run: |
+          git branch --format "%(refname:short)" --contains $TAG | grep master$
+          if [ $? -ne 0 ]; then
+            echo "Ignore this tag."
+            exit 0
+          fi
           pushd ./.github/actions
           npm ci
           node ./publish-latest-release.js
