@@ -21,13 +21,11 @@ jobs:
           node-version: 12
       - name: Publish the latest releasee
         run: |
-          echo "start"
-          ret=$(git branch --format "%(refname:short)" --contains $TAG | grep master$)
-          if [ -z $ret ]; then
+          (git branch --format "%(refname:short)" --contains $TAG | grep -q master$) && :
+          if [ $? -ne 0 ]; then
             echo "Ignore this tag."
             exit 0
           fi
-          echo "called"
           pushd ./.github/actions
           npm ci
           node ./publish-latest-release.js
