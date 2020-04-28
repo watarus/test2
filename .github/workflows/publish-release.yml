@@ -22,6 +22,7 @@ jobs:
       - name: Publish the latest releasee
         run: |
           (git branch --format "%(refname:short)" --contains $TAG | grep -q master$) && :
+          echo $TAG
           if [ $? -ne 0 ]; then
             echo "Ignore this tag."
             exit 0
