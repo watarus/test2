@@ -41,5 +41,5 @@ jobs:
       - name: Merge master into develop and push
         run: |
           git fetch --no-tags --prune --progress --no-recurse-submodules --depth=1 origin +refs/heads/master*:refs/remotes/origin/master* +refs/tags/master*:refs/tags/master*
-          git merge master
+          git merge origin/master
           git push origin develop
