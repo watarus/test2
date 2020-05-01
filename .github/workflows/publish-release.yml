@@ -34,3 +34,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG: ${{ github.ref }}
+      - name: Checkout develop and merge master
+        uses: actions/checkout@v2
+        with:
+          ref: develop
+        run: |
+          git merge msater
+          git push origin develop
